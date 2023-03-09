@@ -10,7 +10,12 @@ function AccountContainer() {
   const handleAddTransaction = (newTransaction) => setTransactions([...transactions, newTransaction]);
 
   const transactionsToDisplay = filter ? transactions.filter((item) => {
-    return item.id === parseInt(filter) || item.description.includes(filter);
+    return (
+      item.id === parseInt(filter) // Filter by ID
+        || item.amount.toString().includes(filter) // Filter by amount
+          || new Date(item.date).toDateString().toLowerCase().includes(filter.toLowerCase())
+            || item.category.toLowerCase().includes(filter.toLowerCase()) // Filter by category
+              || item.description.toLowerCase().includes(filter.toLowerCase())); // Filter by description
   }) : transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   useEffect(() => {
